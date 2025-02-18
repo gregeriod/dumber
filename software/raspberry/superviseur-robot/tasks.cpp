@@ -187,6 +187,30 @@ void Tasks::Join() {
     pause();
 }
 
+
+void Tasks::BatteryTask(void *arg) {
+    MessageBattery * msgSend;
+    int rs;
+    cout << "Start " << __PRETTY_FUNCTION__ << endl << flush;
+    rt_sem_p(&sem_barrier, TM_INFINITE);
+    
+    rt_task_set_periodic(NULL, TM_NOW, 500000000); //<=> 0.5s
+    while (1) {
+        rt_task_wait_period(NULL);
+        cout << "Periodic battery level update";
+        rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+        rs = robotStarted;
+        rt_mutex_release(&mutex_robotStarted);
+        
+        if(rs==1){
+            rt_mutex_acquire(&mutex_robot, TM_INFINITE);
+            msgSend = ;
+            rt_mutex_release(&mutex_robot);
+            WriteInQueue(&q_messageToMon, msgSend);
+        }
+    }
+}
+
 /**
  * @brief Thread handling server communication with the monitor.
  */
