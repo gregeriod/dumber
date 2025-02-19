@@ -204,7 +204,7 @@ void Tasks::BatteryTask(void *arg) {
         
         if(rs==1){
             rt_mutex_acquire(&mutex_robot, TM_INFINITE);
-            msgSend = ;
+            msgSend = (MessageBattery*)robot.Write(new Message)(MESSAGE_ROBOT_BATTERY_GET)) ;
             rt_mutex_release(&mutex_robot);
             WriteInQueue(&q_messageToMon, msgSend);
         }
